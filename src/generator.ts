@@ -14,7 +14,7 @@ export class Generator {
 
     clean() {
         if (this.workDir.length > 0) {
-            fs.rmdirSync(this.workDir, {recursive: true})
+            fs.rmSync(this.workDir, {recursive: true})
             this.workDir = ''
         }
     }
@@ -62,7 +62,7 @@ export class Generator {
                     const now = new Date()
                     fs.renameSync(outputDir, path.join(`${outputDir}-${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}`))
                 } else {
-                    fs.rmdirSync(outputDir, {recursive: true})
+                    fs.rmSync(outputDir, {recursive: true})
                 }
             }
 
