@@ -1,4 +1,6 @@
 examples/services/*
 examples/openapi/*
 .idea/*
-
+services
+src/*
+tsconfig.json

@@ -7,12 +7,12 @@ import {Generator} from './generator';
 const detectPaths = ['.', './config']
 
 const detectConfig = (): string => {
-    for ( const p in detectPaths ) {
+    for ( const p of detectPaths ) {
         if ( fs.existsSync(path.join(p, "config.json")) ) {
             return path.join(p, "config.json")
         }
     }
-    throw `can't find config.json in ${JSON.stringify(detectPaths)}`
+    throw `can't find config.json in ${JSON.stringify(detectPaths)}\n__dirname is ${__dirname}\ncwd is ${process.cwd()}`
 }
 
 const makeCommand = (): Command => {

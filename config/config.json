@@ -1,0 +1,25 @@
+{
+  "outputDir": "./services",
+  "openAPI": [
+    {
+      "schemaPath": "./examples/openapi/uf-tickets.swagger.json",
+      "projectName": "uf-tickets",
+      "args": {
+        "-g": "typescript-fetch"
+      },
+      "additionalProperties": {
+        "withInterfaces": true
+      }
+    },
+    {
+      "schemaPath": "./examples/openapi/uf-tickets.swagger.json",
+      "projectName": "uf-ticketsv2",
+      "args": {
+        "-g": "typescript-fetch"
+      },
+      "additionalProperties": {
+        "withInterfaces": true
+      }
+    }
+  ]
+}

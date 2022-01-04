@@ -1,5 +1,5 @@
 {
-  "exclude": ["node_modules", "examples"],
+  "exclude": ["node_modules", "examples", "services"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 

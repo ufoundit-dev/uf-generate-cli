@@ -67,7 +67,8 @@ export class Generator {
             }
 
             fs.mkdirSync(outputDir, {recursive: true})
-            child_process.execSync(`cp -r ${path.join(this.workDir, "output", c.projectName)} ${outputDir}`)
+            fs.cpSync(path.join(this.workDir, "output", c.projectName), path.join(this.config.outputDir, c.projectName), {recursive: true})
+            // child_process.execSync(`cp -r ${path.join(this.workDir, "output", c.projectName)} ${this.config.outputDir}`)
         }
     }
 
