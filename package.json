@@ -1,0 +1,23 @@
+{
+  "name": "uf-generate-cli",
+  "version": "1.0.2",
+  "description": "a npm tools for generate typescript sdk from openapi document",
+  "main": "bin/index.js",
+  "repository": "https://github.com/ufoundit-dev/uf-generate-cli.git",
+  "author": "moxianfeng <michael@qq.com>",
+  "license": "MIT",
+  "private": false,
+  "bin": {
+    "uf-generate-cli": "bin/index.js"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "commander": "^8.3.0",
+    "typescript": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.6"
+  }
+}

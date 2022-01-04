@@ -1,0 +1,4 @@
+examples/services/*
+examples/openapi/*
+.idea/*
+

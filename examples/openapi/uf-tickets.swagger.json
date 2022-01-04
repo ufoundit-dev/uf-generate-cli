@@ -1,0 +1,984 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "uf_tickets_service/v2/tickets/executions/v1/model.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Executions",
+      "description": "执行对象服务"
+    },
+    {
+      "name": "Inputs",
+      "description": "输入等待服务"
+    },
+    {
+      "name": "Nodes",
+      "description": "节点服务"
+    },
+    {
+      "name": "Tickets",
+      "description": "工单服务"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/tickes/v2/{name=projects/*/tickets/*}": {
+      "get": {
+        "summary": "获取工单定义",
+        "operationId": "GetTicket",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1Ticket"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Tickets"
+        ]
+      },
+      "delete": {
+        "summary": "删除工单定义",
+        "operationId": "DeleteTicket",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Tickets"
+        ]
+      }
+    },
+    "/api/tickes/v2/{parent=projects/*/tickets/*/executions}/tickets": {
+      "post": {
+        "summary": "创建工单",
+        "operationId": "create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1Execution"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Executions"
+        ]
+      }
+    },
+    "/api/tickes/v2/{parent=projects/*}/tickets": {
+      "patch": {
+        "summary": "获取工单列表",
+        "operationId": "ListTickets",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListTicketsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent",
+            "description": "必选参数,格式为projects/{project}",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "description": "每次调用最大返回的记录数, 服务有可能返回少于指定的数量, 如果没指定缺省为500，允许的最大数量为1000，超过1000会强制使用1000.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "description": "在分页中，从上一次call中得到的页面token，用于从特定位置继续分页.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filter",
+            "description": "筛选字符串，详见筛选相关的规范.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "orderBy",
+            "description": "逗号分割的字段列表,用于排序结果，缺省使用升序，如果需要降序需要在结尾添加desc\n如果未设置，则不会有特定的排序方式，一般为主键升序.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Tickets"
+        ]
+      }
+    },
+    "/api/tickes/v2/{ticket.name=projects/*/tickets/*}": {
+      "patch": {
+        "summary": "更新工单定义",
+        "operationId": "UpdateTicket",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1Ticket"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ticket.name",
+            "description": "工单的资源名称，格式为projects/{project}/tickets/{ticket}",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ticket.description",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "ticket.displayName",
+            "description": "工单的显示名称.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ticket.ticketKind",
+            "description": "工单的分类标识.",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ticket.visibleScope",
+            "description": "可见范围，使用资源描述方式，以资源描述的方式.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "ticket.exceptionHandle",
+            "description": "异常处理，审批节点内成员离职、为空等情况的处理方式.\n\n - EXCEPTION_HANDLE_UNSPECIFIED: 未指定\n - EXCEPTION_HANDLE_AUTO_AGREE: 自动同意\n - EXCEPTION_HANDLE_INDICATE: 指定其他人员，若指定的人员也异常，则会自动同意",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "EXCEPTION_HANDLE_UNSPECIFIED",
+              "EXCEPTION_HANDLE_AUTO_AGREE",
+              "EXCEPTION_HANDLE_INDICATE"
+            ],
+            "default": "EXCEPTION_HANDLE_UNSPECIFIED"
+          },
+          {
+            "name": "ticket.exceptionHandleOptions",
+            "description": "异常处理相关的选项，例如，在指定其他人员的时候，可以是人员的资源id.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "ticket.autoApproveKind",
+            "description": "自动审批设置.\n\n - AUTO_APPROVE_KIND_UNSPECIFIED: 未指定\n - AUTO_APPROVE_KIND_ONLY_FIRST: 仅首个节点需审批，其余自动同意\n - AUTO_APPROVE_KIND_CONTINUOUSLY: 仅连续审批时自动同意\n - AUTO_APPROVE_KIND_EVERY_NODE: 每个节点都需要审批",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "AUTO_APPROVE_KIND_UNSPECIFIED",
+              "AUTO_APPROVE_KIND_ONLY_FIRST",
+              "AUTO_APPROVE_KIND_CONTINUOUSLY",
+              "AUTO_APPROVE_KIND_EVERY_NODE"
+            ],
+            "default": "AUTO_APPROVE_KIND_UNSPECIFIED"
+          },
+          {
+            "name": "ticket.electronicSignature",
+            "description": "是否启用电子签名.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "ticket.createTime",
+            "description": "工单的创建时间.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "ticket.updateTime",
+            "description": "工单的更新时间.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "ticket.revisionId",
+            "description": "修订版本.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "updateMask",
+            "description": "被更新的字段列表，如果没有填写，会更新整个工单，例如{\"mask\": \"display_name,name\"}.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Tickets"
+        ]
+      }
+    },
+    "/api/tickets/v2/{parent=projects/*}/tickets": {
+      "post": {
+        "summary": "创建工单定义",
+        "operationId": "CreateTicket",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1Ticket"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "parent",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1Ticket"
+            }
+          },
+          {
+            "name": "ticketId",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Tickets"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "CustomViewAuthType": {
+      "type": "string",
+      "enum": [
+        "AUTH_TYPE_UNSPECIFIED",
+        "AUTH_TYPE_NONE",
+        "AUTH_TYPE_OAUTH"
+      ],
+      "default": "AUTH_TYPE_UNSPECIFIED",
+      "description": "- AUTH_TYPE_UNSPECIFIED: 未指定\n - AUTH_TYPE_NONE: 无需认证\n - AUTH_TYPE_OAUTH: OAuth2",
+      "title": "认证类型"
+    },
+    "TicketAutoApproveKind": {
+      "type": "string",
+      "enum": [
+        "AUTO_APPROVE_KIND_UNSPECIFIED",
+        "AUTO_APPROVE_KIND_ONLY_FIRST",
+        "AUTO_APPROVE_KIND_CONTINUOUSLY",
+        "AUTO_APPROVE_KIND_EVERY_NODE"
+      ],
+      "default": "AUTO_APPROVE_KIND_UNSPECIFIED",
+      "description": "- AUTO_APPROVE_KIND_UNSPECIFIED: 未指定\n - AUTO_APPROVE_KIND_ONLY_FIRST: 仅首个节点需审批，其余自动同意\n - AUTO_APPROVE_KIND_CONTINUOUSLY: 仅连续审批时自动同意\n - AUTO_APPROVE_KIND_EVERY_NODE: 每个节点都需要审批",
+      "title": "自动审批设置"
+    },
+    "TicketExceptionHandle": {
+      "type": "string",
+      "enum": [
+        "EXCEPTION_HANDLE_UNSPECIFIED",
+        "EXCEPTION_HANDLE_AUTO_AGREE",
+        "EXCEPTION_HANDLE_INDICATE"
+      ],
+      "default": "EXCEPTION_HANDLE_UNSPECIFIED",
+      "description": "- EXCEPTION_HANDLE_UNSPECIFIED: 未指定\n - EXCEPTION_HANDLE_AUTO_AGREE: 自动同意\n - EXCEPTION_HANDLE_INDICATE: 指定其他人员，若指定的人员也异常，则会自动同意",
+      "title": "异常处理方式"
+    },
+    "googlelongrunningOperation": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The server-assigned name, which is only unique within the same service that\noriginally returns it. If you use the default HTTP mapping, the\n`name` should be a resource name ending with `operations/{unique_id}`."
+        },
+        "metadata": {
+          "$ref": "#/definitions/protobufAny",
+          "description": "Service-specific metadata associated with the operation.  It typically\ncontains progress information and common metadata such as create time.\nSome services might not provide such metadata.  Any method that returns a\nlong-running operation should document the metadata type, if any."
+        },
+        "done": {
+          "type": "boolean",
+          "description": "If the value is `false`, it means the operation is still in progress.\nIf `true`, the operation is completed, and either `error` or `response` is\navailable."
+        },
+        "error": {
+          "$ref": "#/definitions/rpcStatus",
+          "description": "The error result of the operation in case of failure or cancellation."
+        },
+        "response": {
+          "$ref": "#/definitions/protobufAny",
+          "description": "The normal response of the operation in case of success.  If the original\nmethod returns no data on success, such as `Delete`, the response is\n`google.protobuf.Empty`.  If the original method is standard\n`Get`/`Create`/`Update`, the response should be the resource.  For other\nmethods, the response should have the type `XxxResponse`, where `Xxx`\nis the original method name.  For example, if the original method name\nis `TakeSnapshot()`, the inferred response type is\n`TakeSnapshotResponse`."
+        }
+      },
+      "description": "This resource represents a long-running operation that is the result of a\nnetwork API call."
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+        }
+      },
+      "additionalProperties": {},
+      "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(\u0026foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := \u0026pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := \u0026pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": \u003cstring\u003e,\n      \"lastName\": \u003cstring\u003e\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+        },
+        "message": {
+          "type": "string",
+          "description": "A developer-facing error message, which should be in English. Any\nuser-facing error message should be localized and sent in the\n[google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          },
+          "description": "A list of messages that carry the error details.  There is a common set of\nmessage types for APIs to use."
+        }
+      },
+      "description": "The `Status` type defines a logical error model that is suitable for\ndifferent programming environments, including REST APIs and RPC APIs. It is\nused by [gRPC](https://github.com/grpc). Each `Status` message contains\nthree pieces of data: error code, error message, and error details.\n\nYou can find out more about this error model and how to work with it in the\n[API Design Guide](https://cloud.google.com/apis/design/errors)."
+    },
+    "v1ApproveNode": {
+      "type": "object",
+      "properties": {
+        "view": {
+          "$ref": "#/definitions/v1View",
+          "title": "页面设置"
+        },
+        "timeout": {
+          "type": "number",
+          "format": "double",
+          "title": "审批节点的超时时间，单位是秒，缺省为31536000秒"
+        }
+      },
+      "title": "审批节点"
+    },
+    "v1Attribute": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "属性名称"
+        },
+        "displayName": {
+          "type": "string",
+          "title": "显示名称"
+        },
+        "nameValues": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "数据取值"
+        },
+        "dataSource": {
+          "type": "string"
+        }
+      },
+      "title": "扩展属性"
+    },
+    "v1BeginNode": {
+      "type": "object",
+      "title": "开始节点"
+    },
+    "v1CarbonCopyNode": {
+      "type": "object",
+      "properties": {
+        "carbonCopies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "被抄送的人员"
+        }
+      },
+      "title": "抄送节点"
+    },
+    "v1Control": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "名称"
+        },
+        "label": {
+          "type": "string",
+          "title": "标签"
+        },
+        "type": {
+          "type": "string",
+          "title": "类型"
+        },
+        "key": {
+          "type": "string",
+          "title": "key"
+        },
+        "options": {
+          "$ref": "#/definitions/v1Options",
+          "title": "控件选项"
+        },
+        "subFields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Control"
+          },
+          "title": "复杂控件的子控件"
+        }
+      },
+      "title": "控件"
+    },
+    "v1CustomView": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "example": "GET",
+          "title": "请求的方法，缺省为GET"
+        },
+        "url": {
+          "type": "string",
+          "example": "https://some-domain.com/xxxx/abcd",
+          "title": "自定义view的url"
+        },
+        "authType": {
+          "$ref": "#/definitions/CustomViewAuthType",
+          "title": "认证方式"
+        },
+        "required": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Control"
+          },
+          "title": "自定义页面也可以声明必选控件，服务端会在提交时进行检查"
+        },
+        "options": {
+          "type": "object",
+          "example": {
+            "app": "weapp"
+          },
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "自定义view的选项，页面需要的其他参数"
+        }
+      },
+      "title": "自定义的View"
+    },
+    "v1DefaultView": {
+      "type": "object",
+      "title": "缺省的只包含一个备注框的view"
+    },
+    "v1EndNode": {
+      "type": "object",
+      "title": "结束节点"
+    },
+    "v1Execution": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "execution名字，格式为projects/{project}/tickes/{ticket}/executions/{execution}",
+          "readOnly": true
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "state": {
+          "$ref": "#/definitions/v1State"
+        },
+        "result": {
+          "type": "string",
+          "readOnly": true
+        },
+        "error": {
+          "type": "string",
+          "readOnly": true
+        },
+        "ticketRevisionId": {
+          "type": "string",
+          "readOnly": true
+        }
+      },
+      "title": "工单的Execution"
+    },
+    "v1GeneratedView": {
+      "type": "object",
+      "properties": {
+        "controls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Control"
+          }
+        }
+      },
+      "title": "根据配置生成的view"
+    },
+    "v1Line": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "线的唯一标识"
+        },
+        "srcNodeId": {
+          "type": "string",
+          "title": "起始节点id"
+        },
+        "dstNodeId": {
+          "type": "string",
+          "title": "目标节点id"
+        },
+        "displayName": {
+          "type": "string",
+          "title": "线条的名称，可以为空，在条件连线的时候，条件节点的名字即为该线条的名字"
+        },
+        "rule": {
+          "$ref": "#/definitions/v1Rule",
+          "title": "该线条上的条件，可以为空"
+        }
+      },
+      "title": "连接线"
+    },
+    "v1ListTicketsResponse": {
+      "type": "object",
+      "properties": {
+        "tickets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Ticket"
+          },
+          "title": "工单列表"
+        },
+        "nextPageToken": {
+          "type": "string",
+          "title": "下一次请求放置在page_token字段，用于获取下一页，注意请求的parent、filter、order_by必须完全一致否则会导致请求失败"
+        },
+        "unreachable": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "不可以触达的资源，例如可用区A有3个，可用区B有2个，当前可用区B不可访问，这时unreachable里面会有两个资源id"
+        }
+      },
+      "title": "列表应答"
+    },
+    "v1Node": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "node0001",
+          "title": "唯一标识一个节点，Line用此作为标识",
+          "required": [
+            "id"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "example": "/projects/smartwater/tickets/repair/nodes/node001",
+          "title": "资源名称",
+          "readOnly": true
+        },
+        "displayName": {
+          "type": "string",
+          "example": "/projects/smartwater/tickets/repair/nodes/node001",
+          "title": "显示名称"
+        },
+        "serviceAccount": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "有权限的服务账户"
+        },
+        "beginNode": {
+          "$ref": "#/definitions/v1BeginNode",
+          "title": "开始节点"
+        },
+        "endNode": {
+          "$ref": "#/definitions/v1EndNode",
+          "title": "结束节点"
+        },
+        "approveNode": {
+          "$ref": "#/definitions/v1ApproveNode",
+          "title": "审批节点"
+        },
+        "carbonCopyNode": {
+          "$ref": "#/definitions/v1CarbonCopyNode",
+          "title": "抄送节点"
+        },
+        "routerNode": {
+          "$ref": "#/definitions/v1RouterNode",
+          "title": "路由节点"
+        }
+      },
+      "title": "抽象的节点对象",
+      "required": [
+        "id"
+      ]
+    },
+    "v1Options": {
+      "type": "object",
+      "properties": {
+        "defaultValue": {
+          "type": "string",
+          "title": "缺省值"
+        },
+        "required": {
+          "type": "boolean",
+          "title": "是否必选"
+        },
+        "requiredMessage": {
+          "type": "string",
+          "title": "未选时的提示消息"
+        },
+        "patternCheck": {
+          "type": "boolean",
+          "title": "是否启用模式匹配"
+        },
+        "pattern": {
+          "type": "string",
+          "title": "模式"
+        },
+        "patternMessage": {
+          "type": "string",
+          "title": "模式匹配失败时的提示消息"
+        },
+        "validatorCheck": {
+          "type": "boolean",
+          "title": "是否启用有效性校验"
+        },
+        "validator": {
+          "type": "string",
+          "title": "校验方式"
+        },
+        "validatorMessage": {
+          "type": "string",
+          "title": "校验失败时的提示消息"
+        },
+        "disabled": {
+          "type": "boolean",
+          "title": "是否禁止编辑"
+        },
+        "hidden": {
+          "type": "boolean",
+          "title": "是否隐藏"
+        },
+        "printable": {
+          "type": "boolean",
+          "title": "是否参与打印"
+        },
+        "isSum": {
+          "type": "boolean",
+          "title": "是否求和"
+        },
+        "isCount": {
+          "type": "boolean",
+          "title": "是否计数"
+        },
+        "isAverage": {
+          "type": "boolean",
+          "title": "是否计算平均值"
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Attribute"
+          },
+          "title": "控件的扩展属性"
+        }
+      },
+      "title": "控件属性"
+    },
+    "v1RouterNode": {
+      "type": "object",
+      "title": "路由节点，是个虚拟节点，用于目的线条的指向，以及连续多层路由节点连接时连线的指定"
+    },
+    "v1Rule": {
+      "type": "object",
+      "properties": {
+        "leftSelector": {
+          "type": "string",
+          "title": "左操作数选择器"
+        },
+        "leftRule": {
+          "$ref": "#/definitions/v1Rule",
+          "title": "左规则"
+        },
+        "op": {
+          "type": "string",
+          "title": "操作类型，可选的为 [\u003e, \u003e=, \u003c, \u003c=, ==, !=, in, and, or]"
+        },
+        "rightSelector": {
+          "type": "string",
+          "title": "右操作数选择器"
+        },
+        "rightRule": {
+          "$ref": "#/definitions/v1Rule",
+          "title": "右规则"
+        }
+      },
+      "title": "规则，规则的运算结果为true或false，当组合rule的时候操作符只可以选择and和or"
+    },
+    "v1State": {
+      "type": "string",
+      "enum": [
+        "STATE_UNSPECIFIED",
+        "ACTIVE",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED"
+      ],
+      "default": "STATE_UNSPECIFIED"
+    },
+    "v1Ticket": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "projects/smart-water/tickets/repair_ticket",
+          "title": "工单的资源名称，格式为projects/{project}/tickets/{ticket}"
+        },
+        "description": {
+          "type": "string",
+          "example": "用户报修/报障工单"
+        },
+        "displayName": {
+          "type": "string",
+          "example": "报修",
+          "title": "工单的显示名称",
+          "required": [
+            "display_name"
+          ]
+        },
+        "ticketKind": {
+          "type": "string",
+          "example": "other",
+          "title": "工单的分类标识",
+          "required": [
+            "ticket_kind"
+          ]
+        },
+        "visibleScope": {
+          "type": "string",
+          "example": "/projects/smart-water/location/tonghe",
+          "title": "可见范围，使用资源描述方式，以资源描述的方式"
+        },
+        "exceptionHandle": {
+          "$ref": "#/definitions/TicketExceptionHandle",
+          "example": "AUTO_APPROVE_KIND_ONLY_FIRST",
+          "title": "异常处理，审批节点内成员离职、为空等情况的处理方式"
+        },
+        "exceptionHandleOptions": {
+          "type": "string",
+          "title": "异常处理相关的选项，例如，在指定其他人员的时候，可以是人员的资源id"
+        },
+        "autoApproveKind": {
+          "$ref": "#/definitions/TicketAutoApproveKind",
+          "title": "自动审批设置"
+        },
+        "electronicSignature": {
+          "type": "boolean",
+          "title": "是否启用电子签名"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time",
+          "title": "工单的创建时间",
+          "readOnly": true
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "date-time",
+          "title": "工单的更新时间",
+          "readOnly": true
+        },
+        "revisionId": {
+          "type": "string",
+          "title": "修订版本",
+          "readOnly": true
+        },
+        "labels": {
+          "type": "object",
+          "example": {
+            "creator": "张三",
+            "kind": "财务"
+          },
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "标签，可以没有，如果设置，将来可以用于过滤和检索"
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Node"
+          },
+          "title": "所有的开始、结束、审批、抄送、路由节点",
+          "required": [
+            "nodes"
+          ]
+        },
+        "lines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Line"
+          },
+          "title": "连接节点的线",
+          "required": [
+            "lines"
+          ]
+        }
+      },
+      "title": "工单定义，每个工单是由很多的步骤组成的",
+      "required": [
+        "displayName",
+        "ticketKind",
+        "nodes",
+        "lines"
+      ]
+    },
+    "v1View": {
+      "type": "object",
+      "properties": {
+        "defaultView": {
+          "$ref": "#/definitions/v1DefaultView",
+          "title": "缺省的View，一个说明框"
+        },
+        "generatedView": {
+          "$ref": "#/definitions/v1GeneratedView",
+          "title": "产生的View"
+        },
+        "customView": {
+          "$ref": "#/definitions/v1CustomView",
+          "title": "自定义的View"
+        }
+      },
+      "title": "页面的抽象结构"
+    },
+    "v1nodesv1ListNodesResponse": {
+      "type": "object"
+    }
+  }
+}
