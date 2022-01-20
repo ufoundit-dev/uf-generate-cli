@@ -1,6 +1,6 @@
 {
   "name": "uf-generate-cli",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "a npm tools for generate typescript sdk from openapi document",
   "main": "bin/index.js",
   "repository": "https://github.com/ufoundit-dev/uf-generate-cli.git",
