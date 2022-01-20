@@ -1,15 +1,21 @@
 import {Config} from './config'
 import path from "path";
 import * as os from "os";
-import fs, {constants as fs_constants} from "fs";
+import fs from "fs";
 import child_process from 'child_process';
+import {Plugin} from './plugin'
 
 export class Generator {
     private config: Config
     private workDir: string = ''
+    private plugins: Plugin[] = new Array<Plugin>()
 
     constructor(cfg: Config) {
         this.config = cfg
+    }
+
+    addPlugin(plugin: Plugin) {
+        this.plugins.push(plugin)
     }
 
     clean() {
@@ -72,6 +78,25 @@ export class Generator {
         }
     }
 
+    callPlugins(pathname: string) {
+        const self = this
+        if ( self.plugins.length > 0 ) {
+            const files = fs.readdirSync(pathname)
+            files.forEach((filename) => {
+                const fullname = path.join(pathname, filename)
+                const st = fs.statSync(fullname)
+                if (st.isDirectory()) {
+                    this.callPlugins(fullname)
+                }
+                if (st.isFile()) {
+                    self.plugins.forEach((p)=>{
+                        p(fullname)
+                    })
+                }
+            })
+        }
+    }
+
     generate() {
         // make temp dir as workdir
         this.makeSource()
@@ -85,6 +110,8 @@ export class Generator {
         let cmd = `docker run --rm -v "${this.workDir}:/data" --entrypoint "/data/g.sh" openapitools/openapi-generator-cli:latest`
 
         child_process.execSync(cmd)
+
+        this.callPlugins(path.join(this.workDir, "output"))
 
         // copy file to target
         this.makeResult()

@@ -3,6 +3,7 @@ import path from 'path';
 import {Command} from 'commander';
 import {Config} from './config';
 import {Generator} from './generator';
+import {ReplacePathParameters} from './replace_path_parameters'
 
 const detectPaths = ['.', './config']
 
@@ -42,6 +43,8 @@ const main = () => {
 
     const g = new Generator(cfg)
 
+    g.addPlugin(ReplacePathParameters)
+    
     g.generate()
 
     console.log("Success to generate!!!!!!!!!!!!!!!!!!!")

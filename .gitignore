@@ -1,4 +1,4 @@
 node_modules
 examples/services
-bin/
 services
+lib/
